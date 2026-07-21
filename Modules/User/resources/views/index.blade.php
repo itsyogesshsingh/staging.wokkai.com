@@ -432,6 +432,7 @@
     <div class="offcanvas-body">
         <form action="{{ route('users.store') }}" id="addData" method="POST">
             @csrf
+            
             <input type="hidden" name="_method" value="POST">
             <div>
                 <!-- Basic Info -->
