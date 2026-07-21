@@ -1,8 +1,9 @@
 <?php
 namespace Core\Http\Controllers;
+use App\Http\Controllers\Controller;
 use App\Models\Module;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Role;
 
 class BaseController extends Controller
 {
@@ -23,5 +24,21 @@ class BaseController extends Controller
                 ];
             });
         return response()->json($data);
+    }
+
+    public function searchRole(Request $request)
+    {
+        $search = $request->get('search');
+        $roles = Role::where('status', 'active')
+            ->where('name', 'LIKE', '%' . $search . '%')
+            ->orderBy('name')
+            ->get()
+            ->map(function ($role) {
+                return [
+                    'id'   => $role->id,
+                    'text' => $role->name,
+                ];
+            });
+        return response()->json($roles);
     }
 }

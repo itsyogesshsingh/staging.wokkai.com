@@ -22,5 +22,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     # core
     Route::get('/searchModule', [BaseController::class, 'searchModule'])->name('searchModule');
+    Route::get('/searchRole', [BaseController::class, 'searchRole'])->name('searchRole');
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
