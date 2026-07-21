@@ -4,53 +4,107 @@ namespace Modules\Role\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Modules\Role\Http\Requests\RoleRequest;
+use Modules\Role\Services\RoleServices;
 
-class RoleController extends Controller
+class RoleController extends Controller implements HasMiddleware
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected RoleServices $roleService;
+
+    public function __construct(RoleServices $roleService)
     {
-        return view('role::index');
+        $this->roleService = $roleService;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public static function middleware(): array
     {
-        return view('role::create');
+        return [
+            new Middleware('permission:view_roles', only: ['index']),
+            new Middleware('permission:create_roles', only: ['create', 'store']),
+            new Middleware('permission:edit_roles', only: ['edit', 'update']),
+            new Middleware('permission:delete_roles', only: ['destroy']),
+        ];
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request) {}
-
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
+    public function index(Request $request)
     {
-        return view('role::show');
+        $perPage = $request->get('per_page', 10);
+        $keyword = $request->get('keyword');
+        $status  = $request->get('status');
+        $data = $this->roleService->getAllRoles($perPage, $keyword, $status);
+        return view('role::index', compact('data'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    public function store(RoleRequest $request)
+    {
+        try {
+            $result = $this->roleService->createRole($request->validated());
+            if (!$result['status']) {
+                return response()->json($result, 422);
+            }
+
+            return response()->json(['status' => true, 'message' => $result['message'], 'data' => $result['data']], 201);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Failed to create role', 'error' => $e->getMessage()], 500);
+        }
+    }
+
     public function edit($id)
     {
-        return view('role::edit');
+        try {
+            $result = $this->roleService->getRoleById($id);
+
+            if (!$result) {
+                return response()->json(['status' => false, 'message' => 'Role not found'], 404);
+            }
+
+            return response()->json(['success' => true, 'data' => $result], 200);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Failed to retrieve role', 'error' => $e->getMessage()], 500);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id) {}
+    public function update(RoleRequest $request, $id)
+    {
+        try {
+            $data = $request->validated();
+            $result = $this->roleService->updateRole($id, $data);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id) {}
+            if (!$result['status']) {
+                return response()->json([
+                    'status'  => false,
+                    'type'    => $result['type'] ?? 'error',
+                    'message' => $result['message']
+                ], 409);
+            }
+
+            return response()->json(['status' => true, 'message' => $result['message'], 'data' => $result['data']], 200);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Failed to update role', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            $result = $this->roleService->deleteRole($id);
+
+            if (!$result['status']) {
+                return response()->json(['status' => false, 'message' => $result['message']], 404);
+            }
+
+            return response()->json(['status' => true, 'message' => $result['message']], 200);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => 'Failed to delete role', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getPermissions(Request $request)
+    {
+        $moduleIds = $request->get('module_ids', []);
+        $groupedPermissions = $this->roleService->getPermissions($moduleIds);
+        return response()->json($groupedPermissions);
+    }
 }

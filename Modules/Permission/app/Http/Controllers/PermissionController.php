@@ -5,19 +5,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-// class PermissionController extends Controller  implements HasMiddleware
-class PermissionController extends Controller
+class PermissionController extends Controller  implements HasMiddleware
+// class PermissionController extends Controller
 {
-    // public static function middleware(): array
-    // {
-    //     return [
-    //         new Middleware('permission:view permission', only: ['index']),
-    //         new Middleware('permission:edit permission', only: ['edit']),
-    //         new Middleware('permission:create permission', only: ['create']),
-    //         new Middleware('permission:delete permission', only: ['destroy']),
-    //     ];
-    // }
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:view permission', only: ['index']),
+            new Middleware('permission:edit permission', only: ['edit']),
+            new Middleware('permission:create permission', only: ['create']),
+            new Middleware('permission:delete permission', only: ['destroy']),
+        ];
+    }
 
     public function index(Request $request)
     {

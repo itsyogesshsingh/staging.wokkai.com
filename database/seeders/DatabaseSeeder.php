@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\ModuleSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,6 +16,7 @@ class DatabaseSeeder extends Seeder
             \Modules\Permission\Database\Seeders\PermissionDatabaseSeeder::class,
             \Modules\Role\Database\Seeders\RoleDatabaseSeeder::class,
             \Modules\User\Database\Seeders\UserDatabaseSeeder::class,
+            ModuleSeeder::class
         ]);
     }
 }
