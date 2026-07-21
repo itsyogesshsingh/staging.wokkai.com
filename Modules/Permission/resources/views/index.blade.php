@@ -1,9 +1,12 @@
 <x-layouts.admin>
+@section('title', 'Manage Permissions')
+@section('subTitle', 'Permission')
+@section('content')
     {{-- content --}}
     <div class="content pb-0">
         <!-- Page Header -->
         <div class="mb-4">
-            <h4 class="mb-1">{!! config('permission.name') !!}</h4>
+            <h4 class="mb-1">@yield("title")</h4>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>

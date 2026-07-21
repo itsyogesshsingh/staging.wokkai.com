@@ -1,4 +1,6 @@
 <x-layouts.admin>
+@section('title', 'Manage Users')
+@section('subTitle', 'User')
 {{-- content --}}
 <div class="content pb-0">
     <!-- Page Header -->
