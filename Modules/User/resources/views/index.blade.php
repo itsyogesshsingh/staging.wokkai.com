@@ -430,7 +430,7 @@
         </button>
     </div>
     <div class="offcanvas-body">
-        <form action="{{ route('users.store') }}" id="addData" method="post">
+        <form action="{{ route('users.store') }}" id="addData" method="POST">
             @csrf
             <input type="hidden" name="_method" value="POST">
             <div>
@@ -637,8 +637,8 @@
         form.find('.invalid-feedback').text('');
 
         $.ajax({
-            type: 'POST',
-            url: url,
+            url: $(form).attr("action"),
+            method: $(form).attr("method"),
             data: formData,
             processData: false,
             contentType: false,
