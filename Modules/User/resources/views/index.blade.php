@@ -550,7 +550,7 @@
 
                 let table = $(res).find('#data-table-container');
                 if(table.length){
-                    table.html()
+                    $('#data-table-container').html(table.html());
                 }
                 window.history.pushState({}, '', url);
             },
