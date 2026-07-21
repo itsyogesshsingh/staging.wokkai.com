@@ -1,5 +1,5 @@
-<x-role::layouts.master>
+<x-layouts.admin>
     <h1>Hello World</h1>
 
     <p>Module: {!! config('role.name') !!}</p>
-</x-role::layouts.master>
+<x-layouts.admin>
