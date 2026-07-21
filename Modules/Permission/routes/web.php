@@ -17,15 +17,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/searchModule', function(){
 
     })->name('searchModule');
+
     Route::get('/searchRole', function(){
 
     })->name('searchRole');
+
     Route::get('/searchCompany', function(){
 
     })->name('searchCompany');
+
     Route::get('/searchSource', function(){
 
     })->name('searchSource');
+
     Route::get('/searchStage', function(){
 
     })->name('searchStage');

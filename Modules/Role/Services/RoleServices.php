@@ -26,6 +26,7 @@ class RoleServices
             ->paginate($perPage)
             ->withQueryString();
     }
+
     /**
      * Create a new role record along with assigned modules and Spatie permissions.
      */
@@ -125,12 +126,17 @@ class RoleServices
      */
     public function getPermissions(array $moduleIds)
     {
-        return Permission::with('module')
-            ->whereIn('module_id', $moduleIds)
-            ->where('status', 'active')
+        return Permission::query()
+            ->leftJoin('saas_modules', 'permissions.module_id', '=', 'saas_modules.module_id')
+            ->select(
+                'permissions.*',
+                'saas_modules.module_name'
+            )
+            ->whereIn('permissions.module_id', $moduleIds)
+            ->where('permissions.status', 'active')
             ->get()
-            ->groupBy(function($perm) {
-                return $perm->module->module_name ?? $perm->module_name ?? 'System Module';
+            ->groupBy(function ($permission) {
+                return $permission->module_name ?? 'System Module';
             });
     }
 
