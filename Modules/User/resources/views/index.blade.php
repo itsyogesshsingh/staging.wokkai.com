@@ -534,6 +534,11 @@
     function loadTableData(url) {
         if (!url) url = window.location.href;
 
+        // Force HTTPS for AJAX requests
+        if (url.startsWith('http://')) {
+            url = url.replace('http://', 'https://');
+        }
+
         $('#table-loader').addClass('active');
         $('#data-table-container').css('opacity', '0.5').css('pointer-events', 'none');
 
