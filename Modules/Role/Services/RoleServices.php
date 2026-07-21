@@ -13,18 +13,22 @@ class RoleServices
      */
     public function getAllRoles(int $perPage = 10, $keyword = null, $status = null)
     {
-        return Role::with('createdBy')
+        return Role::query()
+            ->leftJoin('users', 'roles.created_by', '=', 'users.id')
+            ->select(
+                'roles.*',
+                'users.name as created_by_name'
+            )
             ->when($keyword, function ($query) use ($keyword) {
-                $query->where('name', 'like', '%' . trim($keyword) . '%');
+                $query->where('roles.name', 'like', '%' . trim($keyword) . '%');
             })
             ->when($status, function ($query) use ($status) {
-                $query->where('status', $status);
+                $query->where('roles.status', $status);
             })
-            ->latest()
+            ->latest('roles.created_at')
             ->paginate($perPage)
             ->withQueryString();
     }
-
     /**
      * Create a new role record along with assigned modules and Spatie permissions.
      */
