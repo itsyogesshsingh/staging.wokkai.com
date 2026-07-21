@@ -1,0 +1,11 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use Modules\Lead\Http\Controllers\LeadController;
+
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    Route::resource('/leads', LeadController::class);
+    Route::delete('/leads', [LeadController::class, 'bulkDelete'])->name('leads.bulk-delete');
+});
+

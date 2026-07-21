@@ -1,0 +1,11 @@
+{
+    "Auth": true,
+    "Module": true,
+    "Modul": true,
+    "Identity": true,
+    "Permission": true,
+    "Lead": true,
+    "User": true,
+    "Role": true,
+    "Text": true
+}
