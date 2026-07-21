@@ -14,13 +14,10 @@ class RoleServices
     public function getAllRoles(int $perPage = 10, $keyword = null, $status = null)
     {
         return Role::query()
-            ->leftJoin('users', 'roles.created_by', '=', 'users.id')
-            ->select(
-                'roles.*',
-                'users.name as created_by_name'
-            )
+            ->leftJoin('saas_users', 'roles.created_by', '=', 'saas_users.uid')
+            ->select('roles.*','saas_users.username as created_by_name')
             ->when($keyword, function ($query) use ($keyword) {
-                $query->where('roles.name', 'like', '%' . trim($keyword) . '%');
+                $query->where('roles.username', 'like', '%' . trim($keyword) . '%');
             })
             ->when($status, function ($query) use ($status) {
                 $query->where('roles.status', $status);
