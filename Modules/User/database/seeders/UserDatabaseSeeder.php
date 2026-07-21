@@ -19,10 +19,18 @@ class UserDatabaseSeeder extends Seeder
         $hashedPassword = bcrypt('password');
         $roles = Role::all();
 
+        if ($roles->isEmpty()) {
+            $this->command->warn('No roles found. Skipping role assignment.');
+        }
+
         for ($i = 0; $i < $total; $i += $chunkSize) {
             $users = [];
             for ($j = 0; $j < $chunkSize; $j++) {
                 $num = $i + $j;
+                if ($num >= $total) {
+                    break;
+                }
+
                 $users[] = [
                     'first_name' => "first {$num}",
                     'last_name'  => "last {$num}",
@@ -34,11 +42,17 @@ class UserDatabaseSeeder extends Seeder
                 ];
             }
 
-            User::insert($users);
-            // $insertedUsers = User::query()->whereIn('email', array_column($users, 'email'), 'and', false)->get();
-            $insertedUsers = User::query()->whereIn('email', array_column($users, 'email'), '=', true)->get();
-            foreach ($insertedUsers as $user) {
-                $user->assignRole($roles->random()->name);
+            User::upsert(
+                $users,
+                ['email'],
+                ['first_name', 'last_name', 'username', 'password', 'updated_at']
+            );
+
+            $insertedUsers = User::whereIn('email', array_column($users, 'email'))->get();
+            if ($roles->isNotEmpty()) {
+                foreach ($insertedUsers as $user) {
+                    $user->syncRoles($roles->random()->name);
+                }
             }
         }
     }
