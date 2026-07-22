@@ -41,7 +41,7 @@
                                 <span>Dashboard</span>
                             </a>
                         </li>
-                        <li class="submenu">
+                        {{-- <li class="submenu">
                             <a href="javascript:void(0);"><i
                                     class="ti ti-brand-airtable"></i><span>Applications</span><span
                                     class="menu-arrow"></span></a>
@@ -95,13 +95,13 @@
                                 <li><a href="layout-rtl.html">RTL</a></li>
                                 <li><a href="layout-dark.html">Dark</a></li>
                             </ul>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
                 <li class="menu-title"><span>CRM</span></li>
                 <li>
                     <ul>
-                        <li>
+                        {{-- <li>
                             <a href="contacts.html"><i class="ti ti-user-up"></i><span>Contacts</span></a>
                         </li>
                         <li>
@@ -110,11 +110,11 @@
                         </li>
                         <li>
                             <a href="deals.html"><i class="ti ti-medal"></i><span>Deals</span></a>
-                        </li>
+                        </li> --}}
                         <li class="{{ request()->routeIs('leads.index') ? 'active' : '' }}">
                             <a href="{{ route('leads.index') }}"><i class="ti ti-chart-arcs"></i><span>Leads</span></a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="pipeline.html"><i
                                     class="ti ti-timeline-event-exclamation"></i><span>Pipeline</span></a>
                         </li>
@@ -140,10 +140,10 @@
                         <li>
                             <a href="activities.html"><i
                                     class="ti ti-bounce-right"></i><span>Activities</span></a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
-                <li class="menu-title"><span>PROJECTS</span></li>
+                {{-- <li class="menu-title"><span>PROJECTS</span></li>
                 <li>
                     <ul>
                         <li>
@@ -161,8 +161,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="menu-title"><span>SALES CRM</span></li>
-                <li>
+                <li class="menu-title"><span>SALES CRM</span></li> --}}
+                {{-- <li>
                     <ul>
                         <li class="submenu">
                             <a href="javascript:void(0);">
@@ -203,7 +203,7 @@
                         <li><a href="email-engagement.html"><i class="ti ti-mail-dollar"></i><span>Email
                                     Engagement</span></a></li>
                     </ul>
-                </li>
+                </li> --}}
                 <li class="menu-title"><span>User Management</span></li>
                 <li>
                     <ul>
@@ -216,7 +216,19 @@
                         <li class="{{ request()->routeIs('roles.*') ? 'active' : '' }}">
                             <a href="{{ route('roles.index') }}">
                                 <i class="ti ti-user-shield"></i>
-                                <span>Roles & Permissions</span>
+                                <span>Roles</span>
+                            </a>
+                        </li>
+                        <li class="{{ request()->routeIs('permission.*') ? 'active' : '' }}">
+                            <a href="{{ route('permission.index') }}">
+                                <i class="ti ti-shield-check"></i>
+                                <span>Permissions</span>
+                            </a>
+                        </li>
+                        <li class="{{ request()->routeIs('module.*') ? 'active' : '' }}">
+                            <a href="{{ route('module.index') }}">
+                                <i class="ti ti-box"></i>
+                                <span>Modules</span>
                             </a>
                         </li>
                     </ul>
@@ -373,7 +385,7 @@
                         <li><a href="faq.html"><i class="ti ti-question-mark"></i><span>FAQ</span></a></li>
                     </ul>
                 </li> --}}
-                <li class="menu-title"><span>Support</span></li>
+                {{-- <li class="menu-title"><span>Support</span></li>
                 <li>
                     <ul>
                         <li><a href="contact-messages.html"><i class="ti ti-message-check"></i><span>Contact
@@ -488,7 +500,7 @@
                         <li><a href="under-maintenance.html"><i class="ti ti-info-triangle"></i><span>Under
                                     Maintenance</span></a></li>
                     </ul>
-                </li>
+                </li> --}}
                 {{-- <li class="menu-title"><span>UI Interface</span></li>
                 <li>
                     <ul>

@@ -14,7 +14,7 @@
         <!-- Apple Icon -->
         <link rel="apple-touch-icon" href="{{ asset('admin_assets/assets/img/apple-icon.png')}}">
         <!-- Theme Config Js -->
-        <script src="{{ asset('admin_assets/assets/js/theme-script.js')}}"></script>
+        {{-- <script src="{{ asset('admin_assets/assets/js/theme-script.js')}}"></script> --}}
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="{{ asset('admin_assets/assets/css/bootstrap.min.css')}}">
         <!-- Tabler Icon CSS -->
@@ -45,24 +45,19 @@
     <body>
         <!-- Begin Wrapper -->
         <div class="main-wrapper">
-
             <div id="table-loader">
                 <div class="table-spinner"></div>
             </div>
-
-            {{-- <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer"></div> --}}
 
             <div id="toastContainer" class="position-fixed bottom-0 end-0 p-3" style="z-index: 99999;"></div>
 
             <div id="appToast" class="toast align-items-center text-bg-info border-0 position-fixed bottom-0 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true"
                 style="z-index: 9999;">
-
                 <div class="d-flex">
 
                     <div class="toast-body">
                         {{ session('info') }}
                     </div>
-
                     <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
             </div>
